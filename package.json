@@ -1,0 +1,12 @@
+{
+  "name": "bookshelf-api",
+  "version": "1.0.0",
+  "description": "APi for managing books",
+  "main": "index.js",
+  "repository": "https://github.com/BayuDC/bookshelf-api.git",
+  "author": "BayuDC <dev.bayudc@gmail.com>",
+  "license": "Apache2.0",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.2"
+  }
+}
