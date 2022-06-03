@@ -68,7 +68,20 @@ module.exports = {
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
-    indexBook(request, h) {},
+    indexBook(request, h) {
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    books: books.map(book => ({
+                        id: book.id,
+                        name: book.name,
+                        publisher: book.publisher,
+                    })),
+                },
+            })
+            .code(200);
+    },
     /**
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h

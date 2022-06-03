@@ -63,16 +63,18 @@ describe('POST /books', () => {
     });
 });
 describe('GET /books', () => {
-    it.skip('respond with 200 if success', async () => {
+    it('respond with 200 if success', async () => {
         const res = await server.inject({
             method: 'GET',
             url: '/books',
         });
 
         expect(res.statusCode).to.equal(200);
+        expect(res.result).to.includes(['status', 'data']);
         expect(res.result.status).to.equal('success');
         expect(res.result.data).to.include('books');
         expect(res.result.data.books).to.be.an.array();
+        expect(res.result.data.books[0]).to.only.includes(['id', 'name', 'publisher']);
     });
 });
 describe('GET /books/{bookId}', () => {
