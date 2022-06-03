@@ -1,4 +1,4 @@
-const { createBook, indexBook, showBook, updateBook, destroyBook } = require('./handler');
+const { storeBook, indexBook, showBook, updateBook, destroyBook } = require('./handler');
 
 module.exports = [
     {
@@ -15,7 +15,7 @@ module.exports = [
     {
         method: 'post',
         path: '/books',
-        handler: createBook,
+        handler: storeBook,
     },
     {
         method: 'get',

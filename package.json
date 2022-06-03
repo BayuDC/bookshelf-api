@@ -11,7 +11,8 @@
   "author": "BayuDC <dev.bayudc@gmail.com>",
   "license": "Apache2.0",
   "dependencies": {
-    "@hapi/hapi": "^20.2.2"
+    "@hapi/hapi": "^20.2.2",
+    "nanoid": "^3.3.4"
   },
   "devDependencies": {
     "@hapi/code": "^9.0.0",
