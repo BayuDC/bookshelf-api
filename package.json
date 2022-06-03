@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "lab -v tests/*.js",
     "lint": "eslint ./"
   },
   "repository": "https://github.com/BayuDC/bookshelf-api.git",
@@ -16,8 +15,6 @@
     "nanoid": "^3.3.4"
   },
   "devDependencies": {
-    "@hapi/code": "^9.0.0",
-    "@hapi/lab": "^25.0.1",
     "eslint": ">=5.16.0",
     "eslint-config-google": "^0.14.0"
   }
