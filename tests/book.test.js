@@ -177,25 +177,25 @@ describe('PUT /books/{bookId}', () => {
     });
 });
 describe('DELETE /books/{bookId}', () => {
-    it.skip('respond with 404 if not found', async () => {
+    it('respond with 404 if not found', async () => {
         const res = await server.inject({
             method: 'DELETE',
             url: '/books/' + 'smashmykeyboard',
         });
 
-        expect(res.statusCode).to.be(404);
+        expect(res.statusCode).to.equal(404);
         expect(res.result).to.equal({
             status: 'fail',
             message: 'Buku gagal dihapus. Id tidak ditemukan',
         });
     });
-    it.skip('respond with 200 if success', async () => {
+    it('respond with 200 if success', async () => {
         const res = await server.inject({
             method: 'DELETE',
             url: '/books/' + bookId,
         });
 
-        expect(res.statusCode).to.be(200);
+        expect(res.statusCode).to.equal(200);
         expect(res.result).to.equal({
             status: 'success',
             message: 'Buku berhasil dihapus',

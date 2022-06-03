@@ -169,5 +169,27 @@ module.exports = {
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
-    destroyBook(request, h) {},
+    destroyBook(request, h) {
+        const { id } = request.params;
+        const bookIndex = books.findIndex(book => book.id == id);
+        const book = books[bookIndex];
+
+        if (!book) {
+            return h
+                .response({
+                    message: 'Buku gagal dihapus. Id tidak ditemukan',
+                    status: 'fail',
+                })
+                .code(404);
+        }
+
+        books.slice(bookIndex, 1);
+
+        return h
+            .response({
+                message: 'Buku berhasil dihapus',
+                status: 'success',
+            })
+            .code(200);
+    },
 };
