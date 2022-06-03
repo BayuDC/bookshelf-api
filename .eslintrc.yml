@@ -1,0 +1,22 @@
+env:
+  node: true
+  commonjs: true
+  es2021: true
+extends:
+  - google
+parserOptions:
+  ecmaVersion: latest
+rules:
+  indent:
+    - error
+    - 4
+  object-curly-spacing:
+    - error
+    - always
+  max-len:
+    - error
+    - code: 120
+  arrow-parens:
+    - error
+    - as-needed
+  valid-jsdoc: 0
