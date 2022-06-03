@@ -73,8 +73,10 @@ module.exports = {
         let booksFiltered = books;
 
         if (name) booksFiltered = booksFiltered.filter(book => book.name.toLowerCase().includes(name.toLowerCase()));
-        if (reading == 1) booksFiltered = booksFiltered.filter(book => book.reading);
-        if (finished == 1) booksFiltered = booksFiltered.filter(book => book.finished);
+        if (reading === '1') booksFiltered = booksFiltered.filter(book => book.reading);
+        if (reading === '0') booksFiltered = booksFiltered.filter(book => !book.reading);
+        if (finished === '1') booksFiltered = booksFiltered.filter(book => book.finished);
+        if (finished === '0') booksFiltered = booksFiltered.filter(book => !book.finished);
 
         return h
             .response({
@@ -200,7 +202,7 @@ module.exports = {
                     .code(404);
             }
 
-            books.slice(bookIndex, 1);
+            books.splice(bookIndex, 1);
 
             return h
                 .response({
