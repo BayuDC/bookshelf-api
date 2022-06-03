@@ -113,83 +113,101 @@ module.exports = {
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
     updateBook(request, h) {
-        const { id } = request.params;
-        const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload || {};
-        const bookIndex = books.findIndex(book => book.id == id);
-        const book = books[bookIndex];
-        const updatedAt = new Date().toISOString();
+        try {
+            const { id } = request.params;
+            const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload || {};
+            const bookIndex = books.findIndex(book => book.id == id);
+            const book = books[bookIndex];
+            const updatedAt = new Date().toISOString();
 
-        if (!book) {
+            if (!book) {
+                return h
+                    .response({
+                        message: 'Gagal memperbarui buku. Id tidak ditemukan',
+                        status: 'fail',
+                    })
+                    .code(404);
+            }
+            if (!name) {
+                return h
+                    .response({
+                        message: 'Gagal memperbarui buku. Mohon isi nama buku',
+                        status: 'fail',
+                    })
+                    .code(400);
+            }
+
+            if (readPage > pageCount) {
+                return h
+                    .response({
+                        message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+                        status: 'fail',
+                    })
+                    .code(400);
+            }
+
+            books[bookIndex] = {
+                ...book,
+                name,
+                year,
+                author,
+                summary,
+                publisher,
+                pageCount,
+                readPage,
+                reading,
+                updatedAt,
+            };
+
             return h
                 .response({
-                    message: 'Gagal memperbarui buku. Id tidak ditemukan',
-                    status: 'fail',
+                    message: 'Buku berhasil diperbarui',
+                    status: 'success',
                 })
-                .code(404);
-        }
-        if (!name) {
+                .code(200);
+        } catch (err) {
             return h
                 .response({
-                    message: 'Gagal memperbarui buku. Mohon isi nama buku',
-                    status: 'fail',
+                    status: 'error',
+                    message: 'Buku gagal diperbarui',
                 })
-                .code(400);
+                .code(500);
         }
-
-        if (readPage > pageCount) {
-            return h
-                .response({
-                    message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
-                    status: 'fail',
-                })
-                .code(400);
-        }
-
-        books[bookIndex] = {
-            ...book,
-            name,
-            year,
-            author,
-            summary,
-            publisher,
-            pageCount,
-            readPage,
-            reading,
-            updatedAt,
-        };
-
-        return h
-            .response({
-                message: 'Buku berhasil diperbarui',
-                status: 'success',
-            })
-            .code(200);
     },
     /**
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
     destroyBook(request, h) {
-        const { id } = request.params;
-        const bookIndex = books.findIndex(book => book.id == id);
-        const book = books[bookIndex];
+        try {
+            const { id } = request.params;
+            const bookIndex = books.findIndex(book => book.id == id);
+            const book = books[bookIndex];
 
-        if (!book) {
+            if (!book) {
+                return h
+                    .response({
+                        message: 'Buku gagal dihapus. Id tidak ditemukan',
+                        status: 'fail',
+                    })
+                    .code(404);
+            }
+
+            books.slice(bookIndex, 1);
+
             return h
                 .response({
-                    message: 'Buku gagal dihapus. Id tidak ditemukan',
-                    status: 'fail',
+                    message: 'Buku berhasil dihapus',
+                    status: 'success',
                 })
-                .code(404);
+                .code(200);
+        } catch (err) {
+            return h
+                .response({
+                    status: 'error',
+                    message: 'Buku gagal dihapus',
+                })
+                .code(500);
         }
-
-        books.slice(bookIndex, 1);
-
-        return h
-            .response({
-                message: 'Buku berhasil dihapus',
-                status: 'success',
-            })
-            .code(200);
     },
 };
