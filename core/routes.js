@@ -1,3 +1,5 @@
+const { createBook, indexBook, showBook, updateBook, destroyBook } = require('./handler');
+
 module.exports = [
     {
         method: 'get',
@@ -9,5 +11,30 @@ module.exports = [
         handler: (request, h) => {
             return 'Hello World!';
         },
+    },
+    {
+        method: 'post',
+        path: '/books',
+        handler: createBook,
+    },
+    {
+        method: 'get',
+        path: '/books',
+        handler: indexBook,
+    },
+    {
+        method: 'get',
+        path: '/books/{id}',
+        handler: showBook,
+    },
+    {
+        method: 'put',
+        path: '/books/{id}',
+        handler: updateBook,
+    },
+    {
+        method: 'delete',
+        path: '/books/{id}',
+        handler: destroyBook,
     },
 ];
