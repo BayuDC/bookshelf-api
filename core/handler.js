@@ -69,11 +69,18 @@ module.exports = {
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
     indexBook(request, h) {
+        const { name, reading, finished } = request.query;
+        let booksFiltered = books;
+
+        if (name) booksFiltered = booksFiltered.filter(book => book.name.toLowerCase().includes(name.toLowerCase()));
+        if (reading == 1) booksFiltered = booksFiltered.filter(book => book.reading);
+        if (finished == 1) booksFiltered = booksFiltered.filter(book => book.finished);
+
         return h
             .response({
                 status: 'success',
                 data: {
-                    books: books.map(book => ({
+                    books: booksFiltered.map(book => ({
                         id: book.id,
                         name: book.name,
                         publisher: book.publisher,
