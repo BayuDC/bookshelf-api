@@ -78,13 +78,14 @@ describe('GET /books', () => {
     });
 });
 describe('GET /books/{bookId}', () => {
-    it.skip('respond with 200 if success', async () => {
+    it('respond with 200 if success', async () => {
         const res = await server.inject({
             method: 'GET',
             url: '/books/' + bookId,
         });
 
         expect(res.statusCode).to.equal(200);
+        expect(res.result).to.includes(['status', 'data']);
         expect(res.result.status).to.equal('success');
         expect(res.result.data).to.include('book');
         expect(res.result.data.book).to.be.an.object();
@@ -103,13 +104,13 @@ describe('GET /books/{bookId}', () => {
             'updatedAt',
         ]);
     });
-    it.skip('respond with 404 if not found', async () => {
+    it('respond with 404 if not found', async () => {
         const res = await server.inject({
             method: 'GET',
             url: '/books/' + 'smashmykeyboard',
         });
 
-        expect(res.statusCode).to.be(404);
+        expect(res.statusCode).to.equal(404);
         expect(res.result).to.equal({
             status: 'fail',
             message: 'Buku tidak ditemukan',

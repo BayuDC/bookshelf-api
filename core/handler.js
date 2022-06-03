@@ -86,7 +86,28 @@ module.exports = {
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
-    showBook(request, h) {},
+    showBook(request, h) {
+        const { id } = request.params;
+        const book = books.find(book => book.id == id);
+
+        if (!book) {
+            return h
+                .response({
+                    message: 'Buku tidak ditemukan',
+                    status: 'fail',
+                })
+                .code(404);
+        }
+
+        return h
+            .response({
+                status: 'success',
+                data: {
+                    book,
+                },
+            })
+            .code(200);
+    },
     /**
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
