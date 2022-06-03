@@ -112,7 +112,59 @@ module.exports = {
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h
      */
-    updateBook(request, h) {},
+    updateBook(request, h) {
+        const { id } = request.params;
+        const { name, year, author, summary, publisher, pageCount, readPage, reading } = request.payload || {};
+        const bookIndex = books.findIndex(book => book.id == id);
+        const book = books[bookIndex];
+        const updatedAt = new Date().toISOString();
+
+        if (!book) {
+            return h
+                .response({
+                    message: 'Gagal memperbarui buku. Id tidak ditemukan',
+                    status: 'fail',
+                })
+                .code(404);
+        }
+        if (!name) {
+            return h
+                .response({
+                    message: 'Gagal memperbarui buku. Mohon isi nama buku',
+                    status: 'fail',
+                })
+                .code(400);
+        }
+
+        if (readPage > pageCount) {
+            return h
+                .response({
+                    message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
+                    status: 'fail',
+                })
+                .code(400);
+        }
+
+        books[bookIndex] = {
+            ...book,
+            name,
+            year,
+            author,
+            summary,
+            publisher,
+            pageCount,
+            readPage,
+            reading,
+            updatedAt,
+        };
+
+        return h
+            .response({
+                message: 'Buku berhasil diperbarui',
+                status: 'success',
+            })
+            .code(200);
+    },
     /**
      * @param {import('@hapi/hapi').Request} request
      * @param {import('@hapi/hapi').ResponseToolkit} h

@@ -118,22 +118,22 @@ describe('GET /books/{bookId}', () => {
     });
 });
 describe('PUT /books/{bookId}', () => {
-    it.skip('respond with 400 if no name is provided', async () => {
+    it('respond with 400 if no name is provided', async () => {
         const res = await server.inject({
             method: 'PUT',
             url: '/books/' + bookId,
         });
 
-        expect(res.statusCode).to.be(400);
+        expect(res.statusCode).to.equal(400);
         expect(res.result).to.equal({
             status: 'fail',
             message: 'Gagal memperbarui buku. Mohon isi nama buku',
         });
     });
-    it.skip('respond with 400 if no readPage greater than pageCount', async () => {
+    it('respond with 400 if no readPage greater than pageCount', async () => {
         const res = await server.inject({
             method: 'PUT',
-            url: '/books',
+            url: '/books/' + bookId,
             payload: {
                 name: 'test',
                 pageCount: 10,
@@ -141,25 +141,25 @@ describe('PUT /books/{bookId}', () => {
             },
         });
 
-        expect(res.statusCode).to.be(400);
+        expect(res.statusCode).to.equal(400);
         expect(res.result).to.equal({
             status: 'fail',
             message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount',
         });
     });
-    it.skip('respond with 404 if not found', async () => {
+    it('respond with 404 if not found', async () => {
         const res = await server.inject({
             method: 'PUT',
             url: '/books/' + 'smashmykeyboard',
         });
 
-        expect(res.statusCode).to.be(404);
+        expect(res.statusCode).to.equal(404);
         expect(res.result).to.equal({
             status: 'fail',
             message: 'Gagal memperbarui buku. Id tidak ditemukan',
         });
     });
-    it.skip('respond with 200 if success', async () => {
+    it('respond with 200 if success', async () => {
         const res = await server.inject({
             method: 'PUT',
             url: '/books/' + bookId,
@@ -169,7 +169,7 @@ describe('PUT /books/{bookId}', () => {
             },
         });
 
-        expect(res.statusCode).to.be(200);
+        expect(res.statusCode).to.equal(200);
         expect(res.result).to.equal({
             status: 'success',
             message: 'Buku berhasil diperbarui',
